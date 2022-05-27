@@ -5,8 +5,37 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/x-icon" href="./assets/img/favicon.png" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+      integrity="sha512-NhSC1YmyruXifcj/KFRWoC561YpHpc5Jtzgvbuzx5VozKpWvQ+4nXhPdFgmx8xqexRcpAglTj9sIBWINXa8x5w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
     <link rel="stylesheet" href="./assets/css/style.css" />
     <title>Etch a sketch</title>
   </head>
-  <body></body>
+  <body>
+    <h1 class="title">Etch-a-sketch</h1>
+    <div class="wrapper">
+      <div class="options">
+        <input type="color" value="#f6b73c" id="color-picker" />
+        <button class="btn-color active">Color Mode</button>
+        <button class="btn-rainbow">Rainbow Mode</button>
+        <button class="btn-eraser">Eraser</button>
+        <button class="btn-clear">Clear</button>
+        <div class="slider-container">
+          <div class="slider-value">
+            <span>16</span>
+          </div>
+          <div class="slider-field">
+            <div class="value left">0</div>
+            <input type="range" min="1" max="64" value="16" step="1" />
+            <div class="value right">64</div>
+          </div>
+        </div>
+      </div>
+      <div class="editor"></div>
+    </div>
+  </body>
 </html>
