@@ -113,8 +113,14 @@ input[type="range"] {
 }
 
 .editor {
+  flex-shrink: 0;
   width: 500px;
   height: 500px;
   background-color: #fefefe;
   box-shadow: rgba(0, 0, 0, 24%) 2px 4px 8px 2px;
+  display: grid;
+}
+
+.editor > * {
+  cursor: pointer;
 }
