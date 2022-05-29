@@ -3,8 +3,33 @@ const slider = document.querySelector("input[type=range]");
 const sliderValue = document.querySelector(".slider-value > span");
 const colorPicker = document.querySelector("input[type=color]");
 const buttons = document.querySelectorAll("button");
+let currentMode = "";
 
-function setGridItem(editorSize = 2, backgroundColor = "#f6b73c") {
+function getRGBValue() {
+  const letters = "0123456789ABCDEF";
+  let color = "#";
+
+  for (let i = 0; i < 6; i++) {
+    color += letters[Math.floor(Math.random() * letters.length)];
+  }
+
+  return color;
+}
+
+function getColorPickerValue() {
+  return colorPicker.value;
+}
+
+function removeBackgroundColor() {
+  const gridItems = [...editor.children];
+  console.log(gridItems);
+
+  gridItems.forEach(
+    (gridItem) => (gridItem.style.backgroundColor = "transparent")
+  );
+}
+
+function setGridItem(editorSize = 16) {
   // *Update slider value
   sliderValue.textContent = `${editorSize}x${editorSize}`;
   // *Total div amount
@@ -15,16 +40,31 @@ function setGridItem(editorSize = 2, backgroundColor = "#f6b73c") {
     grid-template-rows: repeat(${editorSize}, 1fr);
     `;
 
+  // *Empty old grid-item
+  editor.textContent = "";
+
   for (let i = 0; i < divAmount; i++) {
     const gridItem = document.createElement("div");
     gridItem.className = "grid-item";
-    gridItem.addEventListener(
-      "click",
-      // (evt) => (evt.target.style.backgroundColor = `${backgroundColor}`)
-      () => {
-        console.log(bgColor);
+    gridItem.addEventListener("mouseover", (evt) => {
+      switch (currentMode) {
+        case "Rainbow":
+          evt.target.style.backgroundColor = getRGBValue();
+          break;
+
+        case "Eraser":
+          evt.target.style.backgroundColor = "transparent";
+          break;
+
+        case "ColorMode":
+          evt.target.style.backgroundColor = getColorPickerValue();
+          break;
+
+        default:
+          evt.target.style.backgroundColor = "#f6b73c";
+          break;
       }
-    );
+    });
 
     editor.appendChild(gridItem);
   }
@@ -40,26 +80,26 @@ function setActiveButton(element) {
   element.classList.add("active");
 }
 
-function getColorOptions(evt, button) {
+function getModeOptions(evt, button) {
   {
     setActiveButton(button);
     const classArray = [...evt.target.classList];
 
     switch (classArray[0]) {
-      case "btn-color":
-        return colorPicker.value;
+      case "btn-rainbow":
+        currentMode = "Rainbow";
         break;
 
-      case "btn-rainbow":
-        console.log(classArray[0]);
-        break;
       case "btn-eraser":
-        console.log(classArray[0]);
+        currentMode = "Eraser";
         break;
+
       case "btn-clear":
-        console.log(classArray[0]);
+        removeBackgroundColor();
         break;
+
       default:
+        currentMode = "ColorMode";
         break;
     }
   }
@@ -74,10 +114,21 @@ window.addEventListener("load", () => {
 // *Option mode for Slider
 slider.addEventListener("change", (evt) => setGridItem(evt.target.value));
 
-// *Start Game with Code Mode
+// *Option mode for color picker
+colorPicker.addEventListener("change", (evt) => {
+  const options = evt.target.parentNode;
+  const optionsChildren = [...options.children];
+  const colorModeBtn = document.querySelector(".btn-color");
+
+  optionsChildren.forEach((child) => child.classList.remove("active"));
+  colorModeBtn.classList.add("active");
+
+  currentMode = "ColorMode";
+});
+
+// *Options Mode
 buttons.forEach((button) => {
   button.addEventListener("click", (evt) => {
-    optionsColor = getColorOptions(evt, button);
-    setGridItem(undefined, optionsColor);
+    getModeOptions(evt, button);
   });
 });
