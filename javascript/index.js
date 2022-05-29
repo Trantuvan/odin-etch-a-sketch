@@ -18,10 +18,12 @@ function setGridItem(editorSize = 2, backgroundColor = "#f6b73c") {
   for (let i = 0; i < divAmount; i++) {
     const gridItem = document.createElement("div");
     gridItem.className = "grid-item";
-
     gridItem.addEventListener(
       "click",
-      (evt) => (evt.target.style.backgroundColor = `${backgroundColor}`)
+      // (evt) => (evt.target.style.backgroundColor = `${backgroundColor}`)
+      () => {
+        console.log(bgColor);
+      }
     );
 
     editor.appendChild(gridItem);
@@ -45,6 +47,7 @@ function getColorOptions(evt, button) {
 
     switch (classArray[0]) {
       case "btn-color":
+        return colorPicker.value;
         break;
 
       case "btn-rainbow":
@@ -75,5 +78,6 @@ slider.addEventListener("change", (evt) => setGridItem(evt.target.value));
 buttons.forEach((button) => {
   button.addEventListener("click", (evt) => {
     optionsColor = getColorOptions(evt, button);
+    setGridItem(undefined, optionsColor);
   });
 });
