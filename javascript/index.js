@@ -22,7 +22,6 @@ function getColorPickerValue() {
 
 function removeBackgroundColor() {
   const gridItems = [...editor.children];
-  console.log(gridItems);
 
   gridItems.forEach(
     (gridItem) => (gridItem.style.backgroundColor = "transparent")
