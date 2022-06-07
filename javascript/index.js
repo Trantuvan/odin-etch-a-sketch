@@ -105,10 +105,11 @@ function getModeOptions(evt, button) {
 }
 
 // *Start the game on Load widows (Default slider & color)
-window.addEventListener("load", () => {
-  //Must use arrow function to avoid callBk with onload event
-  setGridItem();
-});
+// window.addEventListener("load", () => {
+//   //Must use arrow function to avoid callBk with onload event
+//   setGridItem();
+// });
+(() => setGridItem())();
 
 // *Option mode for Slider
 slider.addEventListener("change", (evt) => setGridItem(evt.target.value));
